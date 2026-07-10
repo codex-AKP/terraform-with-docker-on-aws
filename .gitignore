@@ -1,0 +1,11 @@
+# Terraform state — never commit these
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# SSH private key — never commit this
+catsite-key.pem
+
+# Local variable overrides
+terraform.tfvars
