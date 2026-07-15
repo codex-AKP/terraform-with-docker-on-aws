@@ -74,6 +74,12 @@ variable "app_port" {
   default     = 80
 }
 
+  variable "ssh_port" {
+  description = "Host port the ssh line is mapped to (and the port nginx listens on)"
+  type        = number
+  default     = 22
+}
+
 variable "instance_tag_name" {
   description = "Value of the Name tag on the EC2 instance"
   type        = string

@@ -36,6 +36,8 @@ resource "local_sensitive_file" "private_key" {
 
 # -----------------------------------------------------------------------------
 # Security Group
+# ingress - inbound traffic 
+# egress - outbound traffic 
 # -----------------------------------------------------------------------------
 
 resource "aws_security_group" "catsite" {
@@ -52,8 +54,8 @@ resource "aws_security_group" "catsite" {
 
   ingress {
     description = "SSH - restrict to your IP in production"
-    from_port   = 22
-    to_port     = 22
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
     protocol    = "tcp"
     cidr_blocks = var.ssh_allowed_cidrs
   }
@@ -75,7 +77,7 @@ resource "aws_security_group" "catsite" {
 # AMI — latest Amazon Linux 2023 (x86_64, HVM)
 # -----------------------------------------------------------------------------
 
-data "aws_ami" "al2023" {
+data "aws_ami" "amazonlinux_2023" {
   most_recent = true
   owners      = ["amazon"]
 
@@ -90,6 +92,7 @@ data "aws_ami" "al2023" {
   }
 }
 
+
 # -----------------------------------------------------------------------------
 # EC2 Instance
 # user_data bootstraps the instance on first boot:
@@ -100,7 +103,7 @@ data "aws_ami" "al2023" {
 # -----------------------------------------------------------------------------
 
 resource "aws_instance" "catsite" {
-  ami                         = data.aws_ami.al2023.id
+  ami                         = data.aws_ami.amazonlinux_2023.id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.catsite.key_name
   vpc_security_group_ids      = [aws_security_group.catsite.id]

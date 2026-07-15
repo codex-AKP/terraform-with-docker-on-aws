@@ -4,7 +4,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the cat website static files into nginx's serve directory
-COPY site/ /usr/share/nginx/html/
+COPY site/index.html /usr/share/nginx/html/index.html
 
 # Expose port 80
 EXPOSE 80
